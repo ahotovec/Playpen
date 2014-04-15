@@ -1,6 +1,7 @@
 """
 Playing around with ObsPy
 20140411: Trying to load data and trigger it, then cut out the triggers
+20140415: Working on adding PCA of triggers
 """
 
 from obspy.fdsn import Client
@@ -21,8 +22,9 @@ st = st.detrend()
 st = st.merge(method=1, fill_value=0)
 st = st.filter('bandpass', freqmin=1.0, freqmax=10.0, corners=2, zerophase=True)
 
+print("Close the window to continue...")
 # Helicorder plot
-# st.plot(type='dayplot')
+st.plot(type='dayplot')
 
 # STA/LTA ttrigger
 tr = st[0]
@@ -52,9 +54,20 @@ print(len(trigs))
 
 # Check on some of the triggers to see if they're okay
 # trigs.plot(type='dayplot', vertical_scaling_range=500)
-# for n in range(0,25):
-#    trigs[n].plot()
+print("Check to see if the triggers look okay. Close each window to continue...")
+for n in range(0,25):
+    trigs[n].plot()
 
+
+# PCA of triggers
+#
+# fft of each trace
+# create matrix n(events)xm(samples)
+# from sklearn.decomposition import PCA
+# import numpy as np
+# X - np.random.random((270,250))
+# pca = PCA()
+# pca.fit(X)
 # 
 
 
