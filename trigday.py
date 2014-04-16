@@ -7,6 +7,8 @@ Playing around with ObsPy
 from obspy.fdsn import Client
 from obspy import UTCDateTime
 from obspy.signal.trigger import classicSTALTA, triggerOnset
+from scipy.fftpack import fft
+import numpy as np
 
 # Grab a day from IRIS (HSR is at Mount St. Helens)
 client = Client("IRIS")
@@ -44,18 +46,23 @@ on_off = triggerOnset(cft, 3, 2)
 
 # Find first trigger that's at least 10 seconds in
 trigtime = 0
-print('Cutting out triggers')
+print('Cutting out and taking FFT of triggers: time consuming!!')
 for n in range(0,len(on_off)):
     if on_off[n,0] > trigtime + 1000:
         if trigtime is 0:
             trigtime = on_off[n,0]
             trigs = st.slice(t - 10 + 0.01*trigtime, t + 20 + 0.01*trigtime)
+            ffttrigs = fft(trigs[-1].data)
         else:
             trigtime = on_off[n,0]
             trigs = trigs.append(st[0].slice(t - 10 + 0.01*trigtime, t + 20 + 0.01*trigtime))
+            ffttrigs = np.vstack((ffttrigs, fft(trigs[-1].data)))
 
 print('Number of triggers: ' + repr(len(trigs)))
-print(trigs)
+print('Shape of ffttrigs: ' + repr(ffttrigs.shape))
+
+
+
 
 # Check on some of the triggers to see if they're okay
 # trigs.plot(type='dayplot', vertical_scaling_range=500)
