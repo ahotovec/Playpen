@@ -42,17 +42,20 @@ on_off = triggerOnset(cft, 3, 2)
 # Go through the trigger list, don't allow triggers within 10 seconds of each other
 # Slice out the traces, we want to correlate them next!
 
-# First trigger
+# Find first trigger that's at least 10 seconds in
+trigtime = 0
 print('Cutting out triggers')
-trigtimes = [on_off[0,0]]
-trigs = st.slice(t - 10 + 0.01*trigtimes[0], t + 20 + 0.01*trigtimes[0])
-
-for n in range(1,len(on_off)):
-    if on_off[n,0] > trigtimes[-1] + 1000:
-        trigtimes.append(on_off[n,0])
-        trigs = trigs.append(st[0].slice(t - 10 + 0.01*trigtimes[-1], t + 20 + 0.01*trigtimes[-1]))
+for n in range(0,len(on_off)):
+    if on_off[n,0] > trigtime + 1000:
+        if trigtime is 0:
+            trigtime = on_off[n,0]
+            trigs = st.slice(t - 10 + 0.01*trigtime, t + 20 + 0.01*trigtime)
+        else:
+            trigtime = on_off[n,0]
+            trigs = trigs.append(st[0].slice(t - 10 + 0.01*trigtime, t + 20 + 0.01*trigtime))
 
 print('Number of triggers: ' + repr(len(trigs)))
+print(trigs)
 
 # Check on some of the triggers to see if they're okay
 # trigs.plot(type='dayplot', vertical_scaling_range=500)
@@ -60,7 +63,7 @@ print('Number of triggers: ' + repr(len(trigs)))
 # for n in range(0,25):
 #     trigs[n].plot()
 
-
+# 
 
 
 # PCA of triggers
