@@ -61,8 +61,8 @@ for n in range(0,len(on_off)):
 print('Number of triggers: ' + repr(len(trigs)))
 print('Shape of ffttrigs: ' + repr(ffttrigs.shape))
 
-
-
+# Save for future playing with
+np.save('ffttrigs.npy', ffttrigs)
 
 # Check on some of the triggers to see if they're okay
 # trigs.plot(type='dayplot', vertical_scaling_range=500)
@@ -70,9 +70,7 @@ print('Shape of ffttrigs: ' + repr(ffttrigs.shape))
 # for n in range(0,25):
 #     trigs[n].plot()
 
-# 
-
-
+# Moving this to a new script
 # PCA of triggers
 #
 # fft of each trace
@@ -82,5 +80,4 @@ print('Shape of ffttrigs: ' + repr(ffttrigs.shape))
 # X - np.random.random((270,250))
 # pca = PCA()
 # pca.fit(X)
-#
 
