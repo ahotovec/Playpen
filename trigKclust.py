@@ -18,34 +18,30 @@ trigdata = (trigdata.T * 1/amps).T
 fig = plt.figure(figsize=(12,9))
 ax = fig.add_subplot(1, 1, 1, xlabel='Sample', ylabel='Trigger')
 ax.imshow(trigdata, aspect='auto', cmap='RdBu', vmin=-1, vmax=1)
-plt.show()
 
 # Do a quick PCA
 pca = PCA().fit(trigdata)
-plt.semilogx(np.cumsum(pca.explained_variance_ratio_))
+fig = plt.figure() 
+ax = plt.semilogx(np.cumsum(pca.explained_variance_ratio_))
 plt.xlabel('number of components')
 plt.ylabel('cumulative explained variance')
-plt.show()
 
 # Find some cluster centers using KMeans
-nclust = 6
-nrows = 2 # for plotting
+nclust = 12
+nrows = 3 # for plotting
 est = KMeans(n_clusters=nclust)
 clusters = est.fit_predict(trigdata)
 
-fig = plt.figure(figsize=(8, 3))
+fig = plt.figure(figsize=(15,9))
 for i in range(nclust):
-     ax = fig.add_subplot(nrows, nclust/nrows, 1 + i, xticks=[], yticks=[])
+     ax = fig.add_subplot(nrows, np.ceil(nclust/nrows), 1 + i, xticks=[], yticks=[])
      ax.plot(est.cluster_centers_[i])
 
-plt.show()
-
-
-fig = plt.figure(figsize=(8,3))
+fig = plt.figure(figsize=(15,9))
 for i in range(nclust):
-    ax = fig.add_subplot(nrows, nclust/nrows, 1 + i, xticks=[])
+    ax = fig.add_subplot(nrows, np.ceil(nclust/nrows), 1 + i, xticks=[])
     ax.imshow(trigdata[clusters==i,:], aspect='auto', cmap='RdBu', vmin=-1, vmax=1)
 
-plt.show()    
+plt.show()
 
 # Shiny.
