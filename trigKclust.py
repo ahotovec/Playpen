@@ -27,8 +27,8 @@ plt.xlabel('number of components')
 plt.ylabel('cumulative explained variance')
 
 # Find some cluster centers using KMeans
-nclust = 12
-nrows = 3 # for plotting
+nclust = 24
+nrows = 4 # for plotting
 est = KMeans(n_clusters=nclust)
 clusters = est.fit_predict(trigdata)
 
@@ -40,7 +40,8 @@ for i in range(nclust):
 fig = plt.figure(figsize=(15,9))
 for i in range(nclust):
     ax = fig.add_subplot(nrows, np.ceil(nclust/nrows), 1 + i, xticks=[])
-    ax.imshow(trigdata[clusters==i,:], aspect='auto', cmap='RdBu', vmin=-1, vmax=1)
+    ax.imshow(trigdata[clusters==i,:], aspect='auto', cmap='RdBu', vmin=-1, vmax=1,
+              interpolation='nearest')
 
 plt.show()
 
