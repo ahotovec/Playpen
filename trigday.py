@@ -14,7 +14,7 @@ import numpy as np
 client = Client("IRIS")
 # This is a time period where I know lots of repeaters are happening
 t = UTCDateTime("2004-11-24T00:00:00.000")
-savename = 'trigdata.npy'
+savename = 'trigdata4.npy'
 
 print('Grabbing waveforms...')
 st = client.get_waveforms("UW", "HSR", "--", "EHZ", t - 10, t + 86420)
@@ -42,6 +42,8 @@ on_off = triggerOnset(cft, 3, 2)
 
 # Find first trigger that's after the start of the day
 # Last trigger has to be before end of day
+
+# Note: not sure if this is the best way to grab the data to manipulate it later...
 trigtime = 0
 print('Cutting out triggers to save: time consuming!!')
 for n in range(0,len(on_off)):

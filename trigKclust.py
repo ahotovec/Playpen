@@ -27,7 +27,7 @@ plt.xlabel('number of components')
 plt.ylabel('cumulative explained variance')
 
 # Find some cluster centers using KMeans
-nclust = 24
+nclust = 24 # Change this as you please
 nrows = 4 # for plotting
 est = KMeans(n_clusters=nclust)
 clusters = est.fit_predict(trigdata)
